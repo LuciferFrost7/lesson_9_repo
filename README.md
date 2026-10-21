@@ -8,3 +8,8 @@
 - Frontend VanillaJS/ReactJS
 - Databases SQLServer/PostgreSQL
 - Mobile dev Flutter/React-Native
+
+## Contacts
+
+- TG: @ddlf0
+- Email: <lufroinfo@gmail.com>
