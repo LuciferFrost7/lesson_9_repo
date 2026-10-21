@@ -4,7 +4,7 @@ export class InventoryPage {
 
         this.pageTitle = page.title();
         this.cartIcon = page.locator('[data-test="shopping-cart-link"]');
-        this.productList = page.locator(".inventory_item_name");
+        this.productList = page.locator(".inventory_item");
         this.addToCartButtons = page.locator(".inventory_item button");
     }
 
@@ -14,7 +14,7 @@ export class InventoryPage {
         for (let i = 0; i < products.length; i++) {
             const productName = await products[i].innerText();
 
-            if (productName === itemName) {
+            if (productName.includes(itemName)) {
                 const addButtons = await this.addToCartButtons.all();
                 await addButtons[i].click();
             }
