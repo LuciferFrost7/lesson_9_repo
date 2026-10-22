@@ -33,9 +33,8 @@ test("User login, create order, complete order & see finish message", async ({ p
     const inventoryPageTitle = await inventoryPage.getPageTitle();
     expect(inventoryPageTitle).toBe(INVENTORY_TITLE);
 
-    //! 4 - HARDCORED
-    //TODO: Create getHighestCostItemName()
-    const itemName = "Sauce Labs Fleece Jacket";
+    //? 4
+    const itemName = await inventoryPage.getHighestCostItemName();
     await inventoryPage.addItemToCart(itemName);
 
     //? 5

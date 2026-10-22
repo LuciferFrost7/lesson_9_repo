@@ -10,7 +10,7 @@ export class CartPage extends AbstractPage {
 
         this.productList = this._getLocator("cart-list");
         this.checkoutButton = this._getLocator("checkout");
-        //! Unused
+        //// Unused
         this.continueShoppingButton = this._getLocator("continue-shopping");
     }
 

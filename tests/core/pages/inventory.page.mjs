@@ -37,4 +37,27 @@ export class InventoryPage extends AbstractPage {
     async getPageTitle() {
         return await this.pageTitle.innerText();
     }
+
+    async getHighestCostItemName() {
+        const products = await this.productList.all();
+
+        let maxPrice;
+        let productIndex = 0;
+        for (let i = 0; i < products.length; i++) {
+            const productPrice = Number(
+                (await products[i].locator('[data-test="inventory-item-price"]').innerText()).slice(
+                    1
+                )
+            );
+
+            if (!maxPrice || productPrice > maxPrice) {
+                maxPrice = productPrice;
+                productIndex = i;
+            }
+        }
+
+        return await products[productIndex]
+            .locator('[data-test="inventory-item-name"]')
+            .innerText();
+    }
 }
