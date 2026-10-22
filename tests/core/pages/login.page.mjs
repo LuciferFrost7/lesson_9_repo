@@ -1,20 +1,31 @@
-export class LoginPage {
-    constructor(page) {
-        this.page = page;
+//ts-check
+import { AbstractPage } from "./abstract/page.abstract.mjs";
 
-        this.usernameInput = page.locator('[data-test="username"]');
-        this.passwordInput = page.locator('[data-test="password"]');
-        this.loginButton = page.locator('[data-test="login-button"]');
-        this.errorMessage = page.locator('[data-test="error"]');
+export class LoginPage extends AbstractPage {
+    /**
+     * @param {import("@playwright/test").Page} page
+     */
+    constructor(page) {
+        super(page);
+
+        this.usernameInput = this._page.locator('[data-test="username"]');
+        this.passwordInput = this._page.locator('[data-test="password"]');
+        this.loginButton = this._page.locator('[data-test="login-button"]');
+        this.errorMessage = this._page.locator('[data-test="error"]');
     }
 
     async open() {
-        await this.page.goto("https://www.saucedemo.com/");
+        await this._page.goto("https://www.saucedemo.com/");
     }
 
+    /**
+     * @param {string} username
+     * @param {string} password
+     */
     async login(username, password) {
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
+
         await this.loginButton.click();
     }
 }

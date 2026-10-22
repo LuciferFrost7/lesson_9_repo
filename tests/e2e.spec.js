@@ -49,7 +49,7 @@ test("User login, create order, complete order & see finish message", async ({ p
     const resultMessage = await checkoutCompletePage.getCompletionMessage();
 
     //? 11
-    await expect(resultMessage).toEqual("Thank you for your order!");
+    expect(resultMessage).toEqual("Thank you for your order!");
     console.log(resultMessage);
 
     await page.pause();

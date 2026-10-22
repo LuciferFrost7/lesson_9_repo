@@ -1,9 +1,15 @@
-export class CheckoutCompletePage {
-    constructor(page) {
-        this.page = page;
+//ts-check
+import { AbstractPage } from "./abstract/page.abstract.mjs";
 
-        this.thanksHeader = this.page.locator('[data-test="complete-header"]');
-        this.backHomeButton = this.page.locator('[data-test="back-to-products"]');
+export class CheckoutCompletePage extends AbstractPage {
+    /**
+     * @param {import("@playwright/test").Page} page
+     */
+    constructor(page) {
+        super(page);
+
+        this.thanksHeader = this._page.locator('[data-test="complete-header"]');
+        this.backHomeButton = this._page.locator('[data-test="back-to-products"]');
     }
 
     async getCompletionMessage() {
