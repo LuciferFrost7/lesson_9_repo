@@ -1,0 +1,17 @@
+{
+    "name": "lesson_12",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "npx playwright test"
+    },
+    "keywords": [],
+    "author": "LuciferFrost",
+    "license": "ISC",
+    "type": "module",
+    "devDependencies": {
+        "@playwright/test": "^1.64.1",
+        "@types/node": "^26.6.5"
+    }
+}
