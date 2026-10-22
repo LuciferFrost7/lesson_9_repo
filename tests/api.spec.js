@@ -1,24 +1,49 @@
 // @ts-check
 import { expect, test } from "@playwright/test";
 
+test.describe.configure({ mode: "serial" });
+
 test.describe("API tests for Restful-booker", () => {
-    const baseURL = "https://restful-booker.herokuapp.com";
+    const BASE_URL = "https://restful-booker.herokuapp.com";
 
-    test("Get list of booking IDs", async ({ request }) => {
-        // Send a GET request
-        const response = await request.get(`${baseURL}/booking`);
+    /**
+     * @type {string | undefined}
+     */
+    let sharedBookingId;
 
-        // Check 1: Response status code
-        console.log(`Status code: ${response.status()}`);
+    test("Create a booking", async ({ request }) => {
+        const BOOKING_DATA = {
+            firstname: "Test",
+            lastname: "User",
+            totalprice: 100,
+            depositpaid: true,
+            bookingdates: {
+                checkin: "2026-01-01",
+                checkout: "2027-01-01",
+            },
+            additionalneeds: "Breakfast",
+        };
+
+        const response = await request.post(`${BASE_URL}/booking`, {
+            data: BOOKING_DATA,
+            headers: { "Content-Type": "application/json" },
+        });
+
+        expect(response.ok()).toBeTruthy();
         expect(response.status()).toBe(200);
 
-        // Check 2: Response body is not empty
         const responseBody = await response.json();
-        console.log("Response body:", responseBody);
 
-        expect(responseBody.length).toBeGreaterThan(0);
+        expect(responseBody).toHaveProperty("bookingid");
 
-        // Check 3: The response contains objects with the key 'bookingid'
-        expect(responseBody[0]).toHaveProperty("bookingid");
+        expect(responseBody.booking.firstname).toBe(BOOKING_DATA.firstname);
+        expect(responseBody.booking.lastname).toBe(BOOKING_DATA.lastname);
+        expect(responseBody.booking.totalprice).toBe(BOOKING_DATA.totalprice);
+        expect(responseBody.booking.depositpaid).toBe(BOOKING_DATA.depositpaid);
+        expect(responseBody.booking.bookingdates.checkin).toBe(BOOKING_DATA.bookingdates.checkin);
+        expect(responseBody.booking.bookingdates.checkout).toBe(BOOKING_DATA.bookingdates.checkout);
+        expect(responseBody.booking.additionalneeds).toBe(BOOKING_DATA.additionalneeds);
+
+        sharedBookingId = responseBody.bookingid;
     });
 });
