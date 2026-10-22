@@ -8,12 +8,20 @@ export class CartPage extends AbstractPage {
     constructor(page) {
         super(page);
 
-        this.productList = this._page.locator('[data-test="cart-list"]');
-        this.checkoutButton = this._page.locator('[data-test="checkout"]');
-        this.continueShoppingButton = this._page.locator('[data-test="continue-shopping"]');
+        this.productList = this._getLocator("cart-list");
+        this.checkoutButton = this._getLocator("checkout");
+        //! Unused
+        this.continueShoppingButton = this._getLocator("continue-shopping");
     }
 
     async goToCheckout() {
         await this.checkoutButton.click();
+    }
+
+    /**
+     * @param {string} itemName
+     */
+    async isItemContains(itemName) {
+        return (await (await this.productList).innerText()).includes(itemName);
     }
 }

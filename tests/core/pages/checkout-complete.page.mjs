@@ -8,8 +8,9 @@ export class CheckoutCompletePage extends AbstractPage {
     constructor(page) {
         super(page);
 
-        this.thanksHeader = this._page.locator('[data-test="complete-header"]');
-        this.backHomeButton = this._page.locator('[data-test="back-to-products"]');
+        this.thanksHeader = this._getLocator("complete-header");
+        //// Unused
+        this.backHomeButton = this._getLocator("back-to-products");
     }
 
     async getCompletionMessage() {

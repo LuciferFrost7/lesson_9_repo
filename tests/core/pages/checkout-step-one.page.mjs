@@ -8,10 +8,10 @@ export class CheckoutStepOnePage extends AbstractPage {
     constructor(page) {
         super(page);
 
-        this.firstNameField = this._page.locator('[data-test="firstName"]');
-        this.lastNameField = this._page.locator('[data-test="lastName"]');
-        this.postalCodeField = this._page.locator('[data-test="postalCode"]');
-        this.continueButton = this._page.locator('[data-test="continue"]');
+        this.firstNameField = this._getLocator("firstName");
+        this.lastNameField = this._getLocator("lastName");
+        this.postalCodeField = this._getLocator("postalCode");
+        this.continueButton = this._getLocator("continue");
     }
 
     /**

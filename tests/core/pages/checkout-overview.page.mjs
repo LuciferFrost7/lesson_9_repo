@@ -8,14 +8,15 @@ export class CheckoutOverviewPage extends AbstractPage {
     constructor(page) {
         super(page);
 
+        this.finishButton = this._getLocator("finish");
+        //// Unused
         this.orderInformation = {
-            paymentInfo: this._page.locator('[data-test="payment-info-value"]'),
-            shippingInfo: this._page.locator('[data-test="shipping-info-value"]'),
-            itemTotal: this._page.locator('[data-test="subtotal-label"]'),
-            tax: this._page.locator('[data-test="tax-label"]'),
+            paymentInfo: this._getLocator("payment-info-value"),
+            shippingInfo: this._getLocator("shipping-info-value"),
+            itemTotal: this._getLocator("subtotal-label"),
+            tax: this._getLocator("tax-label"),
         };
-        this.totalAmount = this._page.locator('[data-test="total-label"]');
-        this.finishButton = this._page.locator('[data-test="finish"]');
+        this.totalAmount = this._getLocator("total-label");
     }
 
     async finishCheckout() {

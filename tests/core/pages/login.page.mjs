@@ -8,10 +8,11 @@ export class LoginPage extends AbstractPage {
     constructor(page) {
         super(page);
 
-        this.usernameInput = this._page.locator('[data-test="username"]');
-        this.passwordInput = this._page.locator('[data-test="password"]');
-        this.loginButton = this._page.locator('[data-test="login-button"]');
-        this.errorMessage = this._page.locator('[data-test="error"]');
+        this.usernameInput = this._getLocator("username");
+        this.passwordInput = this._getLocator("password");
+        this.loginButton = this._getLocator("login-button");
+        //// Unused
+        this.errorMessage = this._getLocator("error");
     }
 
     async open() {

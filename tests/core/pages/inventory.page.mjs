@@ -8,9 +8,9 @@ export class InventoryPage extends AbstractPage {
     constructor(page) {
         super(page);
 
-        this.pageTitle = this._page.title();
-        this.cartIcon = this._page.locator('[data-test="shopping-cart-link"]');
-        this.productList = this._page.locator(".inventory_item");
+        this.pageTitle = this._getLocator("title");
+        this.cartIcon = this._getLocator("shopping-cart-link");
+        this.productList = this._getLocator("inventory-item");
         this.addToCartButtons = this._page.locator(".inventory_item button");
     }
 
@@ -35,6 +35,6 @@ export class InventoryPage extends AbstractPage {
     }
 
     async getPageTitle() {
-        return await this.pageTitle;
+        return await this.pageTitle.innerText();
     }
 }

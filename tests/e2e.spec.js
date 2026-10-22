@@ -10,35 +10,48 @@ import {
 } from "./core/pages/index.mjs";
 
 test("User login, create order, complete order & see finish message", async ({ page }) => {
+    const USER = {
+        USERNAME: "standard_user",
+        PASSWORD: "secret_sauce",
+        FIRST_NAME: "Test",
+        LAST_NAME: "User",
+        POSTAL_CODE: "12345",
+    };
+    const INVENTORY_TITLE = "Products";
+    const COMPLETION_GREET = "Thank you for your order!";
+
     //? 1
     const loginPage = new LoginPage(page);
 
     await loginPage.open();
 
     //? 2
-    await loginPage.login("standard_user", "secret_sauce");
+    await loginPage.login(USER.USERNAME, USER.PASSWORD);
 
     //? 3
     const inventoryPage = new InventoryPage(page);
     const inventoryPageTitle = await inventoryPage.getPageTitle();
-    await expect(page).toHaveTitle(inventoryPageTitle);
+    expect(inventoryPageTitle).toBe(INVENTORY_TITLE);
 
     //! 4 - HARDCORED
-    await inventoryPage.addItemToCart("Sauce Labs Fleece Jacket");
+    //TODO: Create getHighestCostItemName()
+    const itemName = "Sauce Labs Fleece Jacket";
+    await inventoryPage.addItemToCart(itemName);
 
     //? 5
     await inventoryPage.openCart();
 
     //? 6
-    //TODO: Add verifying cart
     const cartPage = new CartPage(page);
+    const containsResult = await cartPage.isItemContains(itemName);
+    expect(containsResult).toBeTruthy();
 
     //? 7
     await cartPage.goToCheckout();
 
     //? 8
     const checkoutStepOnePage = new CheckoutStepOnePage(page);
-    await checkoutStepOnePage.fillUserInfo("Test", "User", "12345");
+    await checkoutStepOnePage.fillUserInfo(USER.FIRST_NAME, USER.LAST_NAME, USER.POSTAL_CODE);
 
     //? 9
     const checkoutOverviewPage = new CheckoutOverviewPage(page);
@@ -49,8 +62,7 @@ test("User login, create order, complete order & see finish message", async ({ p
     const resultMessage = await checkoutCompletePage.getCompletionMessage();
 
     //? 11
-    expect(resultMessage).toEqual("Thank you for your order!");
-    console.log(resultMessage);
+    expect(resultMessage).toEqual(COMPLETION_GREET);
 
     await page.pause();
 });
