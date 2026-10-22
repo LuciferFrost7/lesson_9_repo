@@ -16,6 +16,17 @@ test.describe("API tests for Restful-booker", () => {
         },
         additionalneeds: "Breakfast",
     };
+    const UPDATED_BOOKING_DATA = {
+        firstname: "Test2",
+        lastname: "User2",
+        totalprice: 200,
+        depositpaid: true,
+        bookingdates: {
+            checkin: "2024-02-03",
+            checkout: "2025-03-04",
+        },
+        additionalneeds: "Dinner",
+    };
 
     /**
      * @type {string | undefined}
@@ -50,5 +61,47 @@ test.describe("API tests for Restful-booker", () => {
         const responseBody = await response.json();
 
         expect(responseBody).toMatchObject(BOOKING_DATA);
+    });
+
+    /*
+    ! В задании в качестве примера изменения указано, что можно выбрать
+    ! только firstName и totalPrice, однако же PUT это полная замена объекта,
+    ! а не частичная, поэтому я заменил объект полностью.
+    */
+    test("Update a booking ", async ({ request }) => {
+        const USER_DATA = {
+            username: "admin",
+            password: "password123",
+        };
+
+        const tokenResponse = await request.post(`${BASE_URL}/auth`, {
+            data: USER_DATA,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        expect(tokenResponse.ok()).toBeTruthy();
+        expect(tokenResponse.status()).toBe(200);
+
+        const authToken = (await tokenResponse.json()).token;
+
+        const responseUrl = `${BASE_URL}/booking/${sharedBookingId}`;
+
+        const putResponse = await request.put(responseUrl, {
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Cookie: `token=${authToken}`,
+            },
+            data: UPDATED_BOOKING_DATA,
+        });
+
+        expect(putResponse.ok()).toBeTruthy();
+        expect(putResponse.status()).toBe(200);
+
+        const putResponseBody = await putResponse.json();
+
+        expect(putResponseBody).toMatchObject(UPDATED_BOOKING_DATA);
     });
 });
