@@ -32,6 +32,10 @@ test.describe("API tests for Restful-booker", () => {
      * @type {string | undefined}
      */
     let sharedBookingId;
+    /**
+     * @type {string | undefined}
+     */
+    let sharedAuthToken;
 
     test("Create a booking", async ({ request }) => {
         const response = await request.post(`${BASE_URL}/booking`, {
@@ -103,5 +107,32 @@ test.describe("API tests for Restful-booker", () => {
         const putResponseBody = await putResponse.json();
 
         expect(putResponseBody).toMatchObject(UPDATED_BOOKING_DATA);
+
+        sharedAuthToken = authToken;
+    });
+
+    test("Delete a booking", async ({ request }) => {
+        const responseUrl = `${BASE_URL}/booking/${sharedBookingId}`;
+
+        /**
+         * @param {string} url
+         * @param {string | undefined} token
+         */
+        const sendDeleteRequest = async (url, token) =>
+            await request.delete(url, {
+                headers: {
+                    Cookie: `token=${token}`,
+                },
+            });
+
+        const response = await sendDeleteRequest(responseUrl, sharedAuthToken);
+
+        expect(response.ok()).toBeTruthy();
+        expect(response.status()).toBe(201);
+
+        const repeatedResponse = await sendDeleteRequest(responseUrl, sharedAuthToken);
+
+        expect(repeatedResponse.ok()).toBeFalsy();
+        expect(repeatedResponse.status()).toBe(405);
     });
 });
