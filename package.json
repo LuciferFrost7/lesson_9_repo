@@ -1,0 +1,16 @@
+{
+    "name": "lesson_13",
+    "version": "1.0.0",
+    "scripts": {
+        "test:api": "npx playwright test --grep @api",
+        "test:ui": "npx playwright test --grep @ui",
+        "test": "npx playwright test"
+    },
+    "author": "LuciferFrost",
+    "license": "ISC",
+    "packageManager": "pnpm@10.25.0",
+    "devDependencies": {
+        "@playwright/test": "^1.64.1",
+        "@types/node": "^26.6.5"
+    }
+}
